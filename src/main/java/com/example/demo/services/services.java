@@ -20,15 +20,28 @@ import com.example.demo.model.localmodel;
 @Service //will make a instance of it while building
 public class services {
 	private List<localmodel>model =new ArrayList<>();
+	private int total=0;
+	
+	@Override
+	public String toString() {
+		return "services [total=" + total + "]";
+	}
+	public int getTotal() {
+		return total;
+	}
+	public void setTotal(int total) {
+		this.total = total;
+	}
 	private static String url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
 	@PostConstruct   //while constructing the instance this will be executed
 	@Scheduled(cron= "* * 1 * * *")
 	public void fetchdata() throws IOException, InterruptedException {
 		List<localmodel>newmodel =new ArrayList<>();
+		int tota=0;
 		HttpClient client = HttpClient.newHttpClient();
 		HttpRequest request =HttpRequest.newBuilder().uri(URI.create(url)).build();
 		HttpResponse<String>httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-		System.out.println(httpResponse.body());
+		//System.out.println(httpResponse.body());
 		StringReader csvreader=new StringReader(httpResponse.body());
 		Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(csvreader);
 		for (CSVRecord record : records) {
@@ -37,7 +50,8 @@ public class services {
 			mod.setState(record.get("Province/State"));
 			mod.setCountry(record.get("Country/Region"));
 			mod.setLatestTotal(Integer.parseInt(record.get(record.size()-1)));
-			System.out.println(mod);
+			tota+=mod.getLatestTotal();
+			//System.out.println(mod);
 			newmodel.add(mod);
 			
 			
@@ -45,7 +59,14 @@ public class services {
 		   
 		    
 		}
+		this.total=tota;
 		this.model=newmodel;
 		        
+	}
+	public List<localmodel> getModel() {
+		return model;
+	}
+	public void setModel(List<localmodel> model) {
+		this.model = model;
 	}
 }

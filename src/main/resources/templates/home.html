@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Coronavirus Tracker Application</title>
+<!-- CSS only -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+	crossorigin="anonymous">
+
+</head>
+<body>
+	<div class="text-secondary">
+		<h1 class="text-center">Coronavirus Tracker Application</h1>
+		<p class="text-center">This application lists the current number
+			of cases reported accross the globe. Updates daily</p>
+	
+	<div class="jumbotron text-center">
+		<h1 class="display-4" th:text="${total}"></h1>
+		<p class="lead">Total cases reported as of Today</p>
+	</div>
+	</div>
+	<div class="container text-center">
+		<table class=" table table-bordered ml-7 table-hover">
+			<thead class="thead-dark">
+			<tr >
+				<th>State</th>
+				<th>Country</th>
+				<th>Cases</th>
+
+			</tr>
+			</thead>
+			<tr th:each="mode:${model}">
+				<span th:if= "${mode.state != ''}">
+				<td th:text="${mode.state}"></td>
+				<td th:text="${mode.country}"></td>
+				<td th:text="${mode.latestTotal}"></td>
+				</span>
+			</tr>
+
+		</table>
+	</div>
+</body>
+</html>

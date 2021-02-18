@@ -4,6 +4,7 @@ public class localmodel {
 	private String state;
 	private String country;
 	private int latestTotal;
+	
 	public String getState() {
 		return state;
 	}
